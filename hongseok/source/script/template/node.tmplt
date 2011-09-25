@@ -1,0 +1,25 @@
+struct node
+{
+	enum
+	{
+		[[ENUMLIST]]
+	};// enum
+
+	node(int t)
+	: type(t), parent(0)
+	{}
+
+	virtual ~node()
+	{
+		vector<node*>::iterator	itr, itrend;
+		itr		= children.begin();
+		itrend	= children.end();
+		for (; itr != itrend; ++itr)	delete *itr;
+
+		children.clear();
+	}
+
+	int				type;
+	vector<node*>	children;
+	node*			parent;
+};// struct node

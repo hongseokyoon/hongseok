@@ -1,0 +1,23 @@
+#include "[[CLASSNAME]].h"
+
+[[CLASSNAME]]::[[CLASSNAME]](boost::asio::io_service& io_service)
+: tcp_connection(io_service, /*parser function pointer*/)
+{
+}
+
+void [[CLASSNAME]]::on_connect()
+{
+}
+
+void [[CLASSNAME]]::on_disconnect()
+{
+}
+
+void [[CLASSNAME]]::on_dispatch(const packet* p)
+{
+}
+
+void [[CLASSNAME]]::on_error(const connection::error_division_t& division,
+		const boost::system::error_code& code)
+{
+}

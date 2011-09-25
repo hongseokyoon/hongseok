@@ -1,0 +1,21 @@
+#include "server.h"
+
+#include <iostream>
+
+#include <boost/system/error_code.hpp>
+
+using namespace hongseok;
+
+int main(int argc, char** argv)
+{
+	try
+	{
+		server	s(4);	// thread #
+
+		s.run();
+	}
+	catch (boost::system::error_code err)
+	{
+		std::cerr	<< "exception: " << err.message() << std::endl;
+	}
+}

@@ -1,0 +1,98 @@
+class [[CLASSNAME]]
+{
+public:
+	[[CLASSNAME]](const string& filename)
+	: _node(0)
+	{
+		_node	= _load_xml(filename);
+	}
+
+	~[[CLASSNAME]]()
+	{
+		if (_node)
+		{
+			delete	_node;
+			_node	= 0;
+		}
+	}
+
+	void	print() const
+	{
+		if (_node)	_print_node(_node, 0);
+	}
+
+	const node*	root() const
+	{
+		return _node;
+	}
+
+private:
+	node*	_load_xml(const string& filename)
+	{
+		TiXmlDocument	doc(filename.c_str());
+		if (doc.LoadFile())
+		{
+			TiXmlElement*	root	= doc.FirstChildElement();	
+			return _make_children(root, 0);	
+		}
+
+		return 0;
+	}
+
+	void _print_node_one(const node* n, int depth) const
+	{
+		for (int i = 0; i < depth; ++i)	cout	<< '\t';
+	
+		switch (n->type)
+		{
+		[[PRINTCASE]]
+
+		default:
+			cout	<< "invald-type(" << n->type << ")" << endl;
+			break;
+		}
+	}
+
+	void _print_node(const node* n, int depth) const
+	{
+		_print_node_one(n, depth);
+		vector<node*>::const_iterator	itr, itrend;
+		itr		= n->children.begin();
+		itrend	= n->children.end();
+		for (; itr != itrend; ++itr)	_print_node(*itr, depth + 1);
+	}
+
+	node* _make_node_one(TiXmlElement* e)
+	{
+		node*	n	= 0;
+
+		[[MAKEIF]]
+
+		return n;
+	}
+
+	node* _make_children(TiXmlElement* e, node* p)
+	{
+		if (p == 0)
+		{
+			p	= _make_node_one(e);	// root element
+			return _make_children(e, p);
+		}
+	
+		TiXmlElement*	child	= e->FirstChildElement();
+		while (child)
+		{
+			node*	c	= _make_node_one(child);
+			c->parent	= p;
+			p->children.push_back(c);
+			_make_children(child, c);
+			child	= child->NextSiblingElement();
+		}
+	
+		return p;
+	}
+
+private:
+	node*	_node;
+};// class [[CLASSNAME]] 
+

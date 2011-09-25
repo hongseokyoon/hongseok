@@ -1,0 +1,20 @@
+#ifndef	__[[CLASSDEF]]__
+#define	__[[CLASSDEF]]__
+
+#include "udp_connection.h"
+
+using namespace hongseok;
+
+class [[CLASSNAME]] : public udp_connection
+{
+public:
+	[[CLASSNAME]](boost::asio::io_service& io_service);
+
+	void	on_connect();
+	void	on_disconnect();
+	void	on_dispatch(const packet* p);
+	void	on_error(const connection::error_division_t& division,
+				const boost::system::error_code& code);
+};// class [[CLASSNAME]] : public udp_connection
+
+#endif//__[[CLASSDEF]]__

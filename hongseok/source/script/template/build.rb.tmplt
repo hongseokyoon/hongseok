@@ -1,0 +1,10 @@
+test_files	= ""
+
+Dir.glob("*.cc").each {|filename| test_files += (filename + " ")}
+
+Dir.glob("../hongseok/source/*.cc").each {|filename| test_files += (filename + " ")}
+
+build_command	= "g++ -g -I. -I../boost/include -I../hongseok/source -L../boost/lib -L../hongseok -o [[PROJECTNAME]] " + test_files + "-lboost_system -lpthread -lboost_thread -lodbc"
+
+puts build_command
+system(build_command)
